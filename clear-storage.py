@@ -53,7 +53,7 @@ def main():
     try:
         prox = ProxmoxAPI(host, user=username, password=passw)
     except:
-        print("Error connecting to proxmox host " + host + " as user " + username)
+        print("Error connecting to proxmox host {0} as user {1}".format(host, username))
         sys.exit()
 
     #if (source != exist):
