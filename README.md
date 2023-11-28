@@ -8,3 +8,5 @@ clear-vms.py: performs a live migration to clear a host of all running VMs. Atte
 record-vms.py: records the current location of all VMs to a yaml file
 
 move-vms.py: reads a yaml file and live migrates VMs to match the locations in the file
+
+get-snapshots.py: Looks through all VMs and outputs any snapshots associated with them
