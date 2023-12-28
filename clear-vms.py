@@ -71,7 +71,7 @@ def main():
         for node in nodes:
             if (node[nodeIndex] < lowNode[nodeIndex]):
                 lowNode = node
-        print("{0}-{1} to host {2}...".format(vm['vmid'], config['name'], lowNode['node']), end='')
+        print("{0}-{1} to host {2}...".format(vm['vmid'], config['name'], lowNode['node']), end='', flush=True)
         taskid = prox.nodes(target).qemu(vm['vmid']).migrate.post(target=lowNode['node'], online=1)
         result = await_task(prox, taskid, target)
         if (result['exitstatus'] == "OK"):
