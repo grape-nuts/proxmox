@@ -61,12 +61,14 @@ def main():
         for expectedVM in expectedVMs:
             if (expectedVM == currentVM['name']):
                 if (expectedVMs[expectedVM] != currentVM['node']):
-                    print("Migrating {0}({1}) from {2} to {3}".format(currentVM['name'], currentVM['vmid'], currentVM['node'], expectedVMs[expectedVM]))
+                    print("Migrating {0}({1}) from {2} to {3}...".format(currentVM['name'], currentVM['vmid'], currentVM['node'], expectedVMs[expectedVM]), end='', flush=True)
                     taskid = prox.nodes(currentVM['node']).qemu(currentVM['vmid']).migrate.post(target=expectedVMs[expectedVM], online=1)
                     result = await_task(prox, taskid, currentVM['node'])
                     if (result['exitstatus'] == "OK"):
-                        print("Migrated {0} successfully".format(currentVM['name']))
+                        print("success")
                         count += 1
+                    else:
+                        print("failed")
 
     print("\nTask complete! Migrated {0} vms".format(count))
 

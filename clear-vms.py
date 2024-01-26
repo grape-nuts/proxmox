@@ -64,6 +64,7 @@ def main():
 
     lowNode = nodes[0]
 
+    count = 0
     print("\n\nMigrating the following VMs from host {0} using {1} guidelines:".format(target, mode))
     # Get the list of vmids on the target node
     for vm in prox.nodes(target).qemu.get():
@@ -71,13 +72,16 @@ def main():
         for node in nodes:
             if (node[nodeIndex] < lowNode[nodeIndex]):
                 lowNode = node
-        print("{0}-{1} to host {2}...".format(vm['vmid'], config['name'], lowNode['node']), end='', flush=True)
+        print("{0}({1}) to host {2}...".format(config['name'], vm['vmid'], lowNode['node']), end='', flush=True)
         taskid = prox.nodes(target).qemu(vm['vmid']).migrate.post(target=lowNode['node'], online=1)
         result = await_task(prox, taskid, target)
         if (result['exitstatus'] == "OK"):
             print("success")
+            count += 1
         else:
             print("failed")
+
+    print ("\nTask complete! Migrated {0} vms".format(count))
 
 if __name__ == "__main__":
     main()
