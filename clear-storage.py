@@ -2,16 +2,9 @@
 
 import sys
 import getopt
-from time import sleep
 from proxmoxer import ProxmoxAPI
 from getpass import getpass
-
-def await_task(proxmox_api, taskid, node):
-    data = {"status": ""}
-    while (data['status'] != "stopped"):
-        sleep(1.0) # Looping with no governor causes RemoteDisconnected() errors
-        data = proxmox_api.nodes(node).tasks(taskid).status.get()
-    return data
+import shared
 
 def main():
     try:
@@ -96,7 +89,7 @@ def main():
                 print("Moving " + disk[0] + " for VM " + vm + " to " + destination + "... ", end="", flush=True)
                 taskid = prox.nodes(vmNode[count]).qemu(vm).move_disk.post(disk=disk[1], storage=destination, delete=1)
                 # We have to wait for each task to complete, otherwise vmids with multiple disks being moved will fail
-                await_task(prox, taskid, vmNode[count])
+                shared.await_task(prox, taskid, vmNode[count])
                 print("complete!")
         count += 1
         #sleep(1.0)

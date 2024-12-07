@@ -3,16 +3,9 @@
 import sys
 import getopt
 import yaml
-from time import sleep
 from proxmoxer import ProxmoxAPI
 from getpass import getpass
-
-def await_task(proxmox_api, taskid, node):
-    data = {"status": ""}
-    while (data['status'] != "stopped"):
-        sleep(1.0) # Looping with no governor causes RemoteDisconnected() errors
-        data = proxmox_api.nodes(node).tasks(taskid).status.get()
-    return data
+import shared
 
 def main():
     try:
@@ -63,7 +56,7 @@ def main():
                 if (expectedVMs[expectedVM] != currentVM['node']):
                     print("Migrating {0}({1}) from {2} to {3}...".format(currentVM['name'], currentVM['vmid'], currentVM['node'], expectedVMs[expectedVM]), end='', flush=True)
                     taskid = prox.nodes(currentVM['node']).qemu(currentVM['vmid']).migrate.post(target=expectedVMs[expectedVM], online=1)
-                    result = await_task(prox, taskid, currentVM['node'])
+                    result = shared.await_task(prox, taskid, currentVM['node'])
                     if (result['exitstatus'] == "OK"):
                         print("success")
                         count += 1
