@@ -3,7 +3,6 @@
 import sys
 import getopt
 import yaml
-from proxmoxer import ProxmoxAPI
 from getpass import getpass
 import shared
 
@@ -26,11 +25,7 @@ def main():
     username = input("user@realm: ")
     passw = getpass()
 
-    try:
-        prox = ProxmoxAPI(host, user=username, password=passw)
-    except:
-        print("Error connecting to proxmox host {0} as user {1}".format(host, username))
-        sys.exit()
+    prox = shared.prox_auth(host, username, passw)
 
     file = "./vms.yaml"
 

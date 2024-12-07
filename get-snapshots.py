@@ -4,8 +4,8 @@ import sys
 import getopt
 import yaml
 from pprint import pprint
-from proxmoxer import ProxmoxAPI
 from getpass import getpass
+import shared
 
 def main():
     try:
@@ -26,11 +26,7 @@ def main():
     username = input("user@realm: ")
     passw = getpass()
 
-    try:
-        prox = ProxmoxAPI(host, user=username, password=passw)
-    except:
-        print("Error connecting to proxmox host {0} as user {1}".format(host, username))
-        sys.exit()
+    prox = shared.prox_auth(host, username, passw)
     
     encumberedVMs = {}
 
