@@ -2,7 +2,6 @@
 
 import sys
 import getopt
-from enum import Enum
 from getpass import getpass
 import shared
 
