@@ -1,6 +1,13 @@
 import sys
+import configparser
 from time import sleep
 from proxmoxer import ProxmoxAPI
+
+def read_config():
+    config = configparser.ConfigParser()
+    config.read('config.conf')
+
+    return config['DEFAULT']
 
 def await_task(proxmox_api, taskid, node):
     data = {"status": ""}
