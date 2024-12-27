@@ -6,6 +6,8 @@ from getpass import getpass
 import shared
 
 def main():
+    config = shared.read_config()
+
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h:s:d:", ["host=", "source=", "destination="])
     except getopt.GetoptError as err:
@@ -15,6 +17,9 @@ def main():
     host = None
     source = None
     destination = None
+    if 'host' in config:
+        host = config['host']
+        print("Using host {0} from config".format(host))
     for opt, arg in opts:
         if (opt in ("-h", "--host")):
             host = arg
@@ -26,7 +31,7 @@ def main():
             assert False, "Unhandled option"
 
     if (host == None):
-        print("Host is required")
+        print("Host is required via -h or config file")
         sys.exit(2)
 
     if (source == None):

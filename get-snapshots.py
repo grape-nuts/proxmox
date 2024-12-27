@@ -8,6 +8,8 @@ from getpass import getpass
 import shared
 
 def main():
+    config = shared.read_config()
+
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h:", ["host="])
     except getopt.GetoptError as err:
@@ -15,12 +17,15 @@ def main():
         sys.exit(2)
 
     host = None
+    if 'host' in config:
+        host = config['host']
+        print("Using host {0} from config".format(host))
     for opt, arg in opts:
         if (opt in ("-h", "--host")):
             host = arg
 
     if (host == None):
-        print("Host is required")
+        print("Host is required via -h or config file")
         sys.exit(2)
 
     username = input("user@realm: ")
