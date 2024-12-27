@@ -1,2 +1,2 @@
+-move command-line args to dict in shared module 
 -syntax cleanup
--api token auth (config file)
