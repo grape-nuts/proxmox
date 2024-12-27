@@ -3,7 +3,6 @@
 import sys
 import getopt
 import yaml
-from getpass import getpass
 import shared
 
 def main():
@@ -27,10 +26,7 @@ def main():
         print("Host is required via -h or config file")
         sys.exit(2)
 
-    username = input("user@realm: ")
-    passw = getpass()
-
-    prox = shared.prox_auth(host, username, passw)
+    prox = shared.prox_auth(host)
 
     file = "./vms.yaml"
 

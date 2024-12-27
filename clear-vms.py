@@ -2,7 +2,6 @@
 
 import sys
 import getopt
-from getpass import getpass
 import shared
 
 def main():
@@ -44,10 +43,7 @@ def main():
         print("Mode option must be either 'memory' or 'cpu'")
         sys.exit()
 
-    username = input("user@realm: ")
-    passw = getpass()
-
-    prox = shared.prox_auth(host, username, passw)
+    prox = shared.prox_auth(host)
 
     nodes = prox.nodes.get()
     for i, node in enumerate(nodes):

@@ -2,7 +2,6 @@
 
 import sys
 import getopt
-from getpass import getpass
 import shared
 
 def main():
@@ -46,10 +45,7 @@ def main():
     vmid = []
     vmNode = []
 
-    username = input("user@realm: ")
-    passw = getpass()
-
-    prox = shared.prox_auth(host, username, passw)
+    prox = shared.prox_auth(host)
 
     #if (source != exist):
         #exit gracefully
