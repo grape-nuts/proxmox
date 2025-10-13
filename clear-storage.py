@@ -66,8 +66,8 @@ def main():
 
     # Get the node that each vmid belongs to
     for vm in prox.cluster.resources.get(type="vm"):
-        for id in vmid:
-            if (id == str(vm['vmid'])):
+        for iden in vmid:
+            if (iden == str(vm['vmid'])):
                 vmNode.append("{0}".format(vm['node']))
 
     # Loop through the vmids, get their config from the corresponding node, get the list of disks from the config,
