@@ -41,6 +41,7 @@ def main():
         print("Destination datastore is required")
         sys.exit(2)
 
+    diskBus = ['scsi', 'efidisk', 'sata']
     node = host.split(".", 1)[0]
     vmid = []
     vmNode = []
@@ -75,10 +76,11 @@ def main():
     for vm in vmid:
         config = prox.nodes(vmNode[count]).qemu(vm).config.get()
         disks = []
-        for i in range(0, 30):
-            scsiStr = 'scsi' + str(i)
-            if (scsiStr in config):
-                disks.append(["{0}".format(config[scsiStr]), scsiStr])
+        for busType in diskBus:
+            for i in range(0, 30):
+                diskStr = busType + str(i)
+                if (diskStr in config):
+                    disks.append(["{0}".format(config[diskStr]), diskStr])
         for disk in disks:
             diskStorageID = disk[0].split(":", 1)[0]
             if (diskStorageID == source):
