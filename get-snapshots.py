@@ -10,7 +10,7 @@ def main():
     config = shared.read_config()
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "h:", ["host="])
+        opts = getopt.getopt(sys.argv[1:], "h:", ["host="])[0]
     except getopt.GetoptError as err:
         print(err)
         sys.exit(2)
@@ -20,15 +20,15 @@ def main():
         host = config['host']
         print("Using host {0} from config".format(host))
     for opt, arg in opts:
-        if (opt in ("-h", "--host")):
+        if opt in ("-h", "--host"):
             host = arg
 
-    if (host == None):
+    if host is None:
         print("Host is required via -h or config file")
         sys.exit(2)
 
     prox = shared.prox_auth(host)
-    
+
     encumberedVMs = {}
 
     flag = False
@@ -39,15 +39,15 @@ def main():
             snapshot = []
             snaps = prox.nodes(node['node']).qemu(vm['vmid']).snapshot.get()
             for snap in snaps:
-                if (snap['name'] != 'current'):
+                if snap['name'] != 'current':
                     snapshot.append(snap)
                     snapCount += 1
-            if (snapCount > 0):
+            if snapCount > 0:
                 flag = True
                 encumberedVMs[vm['name']] = []
                 encumberedVMs[vm['name']].append(snapshot)
 
-    if (flag == True):
+    if flag:
         for vm in encumberedVMs:
             print("{0}:".format(vm))
             for snapshot in encumberedVMs[vm]:
