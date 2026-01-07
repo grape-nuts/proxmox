@@ -22,7 +22,7 @@ def main():
         if (opt in ("-h", "--host")):
             host = arg
 
-    if (host == None):
+    if (host is None):
         print("Host is required via -h or config file")
         sys.exit(2)
 

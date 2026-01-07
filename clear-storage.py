@@ -29,15 +29,15 @@ def main():
         else:
             assert False, "Unhandled option"
 
-    if host == None:
+    if host is None:
         print("Host is required via -h or config file")
         sys.exit(2)
 
-    if source == None:
+    if source is None:
         print("Source datastore is required")
         sys.exit(2)
 
-    if destination == None:
+    if destination is None:
         print("Destination datastore is required")
         sys.exit(2)
 
@@ -58,7 +58,7 @@ def main():
     for image in prox.nodes(node).storage(source).content.get():
         vmid.append("{0}".format(image['vmid']))
 
-    # TODO: check for snapshots on any of the vmids, and stop if one is found
+    #TODO: check for snapshots on any of the vmids, and stop if one is found
 
     # Remove duplicates from the list and sort
     vmid = [*set(vmid)]
