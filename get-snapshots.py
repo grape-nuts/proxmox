@@ -2,8 +2,6 @@
 
 import sys
 import getopt
-import yaml
-from pprint import pprint
 import shared
 
 def main():
