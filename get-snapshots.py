@@ -18,7 +18,7 @@ def main():
     host = None
     if 'host' in config:
         host = config['host']
-        print("Using host {0} from config".format(host))
+        print(f"Using host {host} from config")
     for opt, arg in opts:
         if opt in ("-h", "--host"):
             host = arg
@@ -49,10 +49,10 @@ def main():
 
     if flag:
         for vm in encumberedVMs:
-            print("{0}:".format(vm))
+            print(f"{vm}:")
             for snapshot in encumberedVMs[vm]:
                 for snaps in snapshot:
-                    print("  " + snaps['name'])
+                    print(f"  {snaps['name']}")
     else:
         print("No snapshots found")
 

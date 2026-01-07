@@ -17,7 +17,7 @@ def main():
     host = None
     if 'host' in config:
         host = config['host']
-        print("Using host {0} from config".format(host))
+        print(f"Using host {host} from config")
     for opt, arg in opts:
         if opt in ("-h", "--host"):
             host = arg
@@ -50,7 +50,7 @@ def main():
         for expectedVM in expectedVMs:
             if expectedVM == currentVM['name']:
                 if expectedVMs[expectedVM] != currentVM['node']:
-                    print("Migrating {0}({1}) from {2} to {3}...".format(currentVM['name'], currentVM['vmid'], currentVM['node'], expectedVMs[expectedVM]), end='', flush=True)
+                    print(f"Migrating {currentVM['name']}({currentVM['vmid']}) from {currentVM['node']} to {expectedVMs[expectedVM]}...", end='', flush=True)
                     taskid = prox.nodes(currentVM['node']).qemu(currentVM['vmid']).migrate.post(target=expectedVMs[expectedVM], online=1)
                     result = shared.await_task(prox, taskid, currentVM['node'])
                     if result['exitstatus'] == "OK":
@@ -59,7 +59,7 @@ def main():
                     else:
                         print("failed")
 
-    print("\nTask complete! Migrated {0} vms".format(count))
+    print(f"\nTask complete! Migrated {count} vms")
 
 if __name__ == "__main__":
     main()

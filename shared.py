@@ -21,18 +21,18 @@ def prox_auth(host):
     config = read_config()
 
     if 'tokenName' in config and 'tokenUser' in config and 'tokenValue' in config:
-        print("Using API token {0}!{1} from config".format(config['tokenUser'], config['tokenName']))
+        print(f"Using API token {config['tokenUser']}!{config['tokenName']} from config")
         try:
             prox = ProxmoxAPI(host, user=config['tokenUser'], token_name=config['tokenName'], token_value=config['tokenValue'])
         except Exception:
-            print("Error connection to proxmox host {0} with token {1}".format(host, config['tokenName']))
+            print(f"Error connection to proxmox host {host} with token {config['tokenName']}")
     else:
         username = input("user@realm: ")
         passw = getpass()
         try:
             prox = ProxmoxAPI(host, user=username, password=passw)
         except Exception:
-            print("Error connecting to proxmox host {0} as user {1}".format(host, username))
+            print(f"Error connecting to proxmox host {host} as user {username}")
             sys.exit()
 
     return prox

@@ -17,7 +17,7 @@ def main():
     host = None
     if 'host' in config:
         host = config['host']
-        print("Using host {0} from config".format(host))
+        print(f"Using host {host} from config")
     for opt, arg in opts:
         if opt in ("-h", "--host"):
             host = arg
@@ -43,7 +43,7 @@ def main():
     with open(fileName, 'w') as file:
         yaml.dump(nodes, file)
 
-    print("Wrote {0} vms on {1} hosts to {2}.".format(vmCount, nodeCount, fileName))
+    print(f"Wrote {vmCount} vms on {nodeCount} hosts to {fileName}.")
 
 if __name__ == "__main__":
     main()

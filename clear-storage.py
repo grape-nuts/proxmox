@@ -18,7 +18,7 @@ def main():
     destination = None
     if 'host' in config:
         host = config['host']
-        print("Using host {0} from config".format(host))
+        print(f"Using host {host} from config")
     for opt, arg in opts:
         if opt in ("-h", "--host"):
             host = arg
@@ -56,7 +56,7 @@ def main():
 
     # Get the list of vmids that have a disk image on the source datastore
     for image in prox.nodes(node).storage(source).content.get():
-        vmid.append("{0}".format(image['vmid']))
+        vmid.append(f"{image['vmid']}")
 
     #TODO: check for snapshots on any of the vmids, and stop if one is found
 
@@ -68,7 +68,7 @@ def main():
     for vm in prox.cluster.resources.get(type="vm"):
         for iden in vmid:
             if iden == str(vm['vmid']):
-                vmNode.append("{0}".format(vm['node']))
+                vmNode.append(f"{vm['node']}")
 
     # Loop through the vmids, get their config from the corresponding node, get the
     # list of disks from the config, and if the disk is on the source datastore,
@@ -85,7 +85,7 @@ def main():
         for disk in disks:
             diskStorageID = disk[0].split(":", 1)[0]
             if diskStorageID == source:
-                print("Moving " + disk[0] + " for VM " + vm + " to " + destination + "... ", end="", flush=True)
+                print(f"Moving {disk[0]} for VM {vm} to {destination}... ", end="", flush=True)
                 taskid = prox.nodes(vmNode[count]).qemu(vm).move_disk.post(disk=disk[1], storage=destination, delete=1)
                 # We have to wait for each task to complete, otherwise vmids with multiple disks being moved will fail
                 shared.await_task(prox, taskid, vmNode[count])
