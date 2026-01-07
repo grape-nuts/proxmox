@@ -81,7 +81,7 @@ def main():
             for i in range(0, 30):
                 diskStr = busType + str(i)
                 if diskStr in config:
-                    disks.append(["{0}".format(config[diskStr]), diskStr])
+                    disks.append([f"{config[diskStr]}", diskStr])
         for disk in disks:
             diskStorageID = disk[0].split(":", 1)[0]
             if diskStorageID == source:

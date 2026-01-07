@@ -24,14 +24,14 @@ def prox_auth(host):
         print(f"Using API token {config['tokenUser']}!{config['tokenName']} from config")
         try:
             prox = ProxmoxAPI(host, user=config['tokenUser'], token_name=config['tokenName'], token_value=config['tokenValue'])
-        except Exception:
+        except RuntimeError:
             print(f"Error connection to proxmox host {host} with token {config['tokenName']}")
     else:
         username = input("user@realm: ")
         passw = getpass()
         try:
             prox = ProxmoxAPI(host, user=username, password=passw)
-        except Exception:
+        except RuntimeError:
             print(f"Error connecting to proxmox host {host} as user {username}")
             sys.exit()
 
