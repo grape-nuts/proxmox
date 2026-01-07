@@ -19,10 +19,10 @@ def main():
         host = config['host']
         print("Using host {0} from config".format(host))
     for opt, arg in opts:
-        if (opt in ("-h", "--host")):
+        if opt in ("-h", "--host"):
             host = arg
 
-    if (host is None):
+    if host is None:
         print("Host is required via -h or config file")
         sys.exit(2)
 

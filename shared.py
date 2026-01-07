@@ -20,7 +20,7 @@ def await_task(proxmox_api, taskid, node):
 def prox_auth(host):
     config = read_config()
 
-    if ('tokenName' in config) and ('tokenUser' in config) and ('tokenValue' in config):
+    if 'tokenName' in config and 'tokenUser' in config and 'tokenValue' in config:
         print("Using API token {0}!{1} from config".format(config['tokenUser'], config['tokenName']))
         try:
             prox = ProxmoxAPI(host, user=config['tokenUser'], token_name=config['tokenName'], token_value=config['tokenValue'])
