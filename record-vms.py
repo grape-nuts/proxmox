@@ -40,7 +40,7 @@ def main():
             vmCount += 1
 
     fileName = 'vms.yaml'
-    with open(fileName, 'w') as file:
+    with open(fileName, 'w', encoding="utf-8") as file:
         yaml.dump(nodes, file)
 
     print(f"Wrote {vmCount} vms on {nodeCount} hosts to {fileName}.")

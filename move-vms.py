@@ -31,7 +31,7 @@ def main():
     file = "./vms.yaml"
 
     try:
-        fileHandle = open(file, "r")
+        fileHandle = open(file, "r", encoding="utf-8")
         nodes = yaml.safe_load(fileHandle)
         fileHandle.close()
     except FileNotFoundError:
