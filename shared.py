@@ -1,14 +1,34 @@
 import sys
 import configparser
+import argparse
 from time import sleep
 from getpass import getpass
 from proxmoxer import ProxmoxAPI
+
+def init_args():
+    parser = argparse.ArgumentParser(add_help=False)
+
+    parser.add_argument("-h", "--host", help="The Proxmox host to connect to")
+
+    return parser
 
 def read_config():
     config = configparser.ConfigParser()
     config.read('config.conf')
 
     return config['DEFAULT']
+
+def host_check(config, args):
+    if args.host is not None:
+        host = args.host
+    elif 'host' in config:
+        host = config['host']
+        print(f"Using host {host} from config")
+    else:
+        print("Host must be specified via configuration or argument")
+        sys.exit(2)
+
+    return host
 
 def await_task(proxmox_api, taskid, node):
     data = {"status": ""}

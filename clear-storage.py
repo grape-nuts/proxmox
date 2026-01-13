@@ -1,45 +1,17 @@
 #!/usr/bin/python
 
-import sys
-import getopt
 import shared
 
 def main():
     config = shared.read_config()
+    parser = shared.init_args()
+    parser.add_argument("-s", "--source", required=True, help="Source datastore")
+    parser.add_argument("-d", "--destination", required=True, help="Destination datastore")
+    args = parser.parse_args()
+    host = shared.host_check(config, args)
 
-    try:
-        opts = getopt.getopt(sys.argv[1:], "h:s:d:", ["host=", "source=", "destination="])[0]
-    except getopt.GetoptError as err:
-        print(err)
-        sys.exit(2)
-
-    host = None
-    source = None
-    destination = None
-    if 'host' in config:
-        host = config['host']
-        print(f"Using host {host} from config")
-    for opt, arg in opts:
-        if opt in ("-h", "--host"):
-            host = arg
-        elif opt in ("-s", "--source"):
-            source = arg
-        elif opt in ("-d", "--destination"):
-            destination = arg
-        else:
-            assert False, "Unhandled option"
-
-    if host is None:
-        print("Host is required via -h or config file")
-        sys.exit(2)
-
-    if source is None:
-        print("Source datastore is required")
-        sys.exit(2)
-
-    if destination is None:
-        print("Destination datastore is required")
-        sys.exit(2)
+    source = args.source
+    destination = args.destination
 
     diskBus = ['scsi', 'efidisk', 'sata']
     node = host.split(".", 1)[0]

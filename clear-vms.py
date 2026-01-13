@@ -1,47 +1,24 @@
 #!/usr/bin/python
 
-import sys
-import getopt
 import shared
 
 def main():
     config = shared.read_config()
+    parser = shared.init_args()
+    parser.add_argument("-t", "--target", help="Specify a target host")
+    parser.add_argument("-m", "--mode", default="memory", help="Specify mode [cpu, memory]")
+    args = parser.parse_args()
+    host = shared.host_check(config, args)
 
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "h:t:m:", ["host=", "target=", "mode="])
-    except getopt.GetoptError as err:
-        print(err)
-        sys.exit(2)
+    target = args.target
+    mode = args.mode
 
-    host = None
-    target = None
-    mode = 'memory'
-    if 'host' in config:
-        host = config['host']
-        print(f"Using host {host} from config")
-    for opt, arg in opts:
-        if opt in ("-h", "--host"):
-            host = arg
-        elif opt in ("-t", "--target"):
-            target = arg
-        elif opt in ("-m", "--mode"):
-            mode = arg
-        else:
-            print(f"Unknown option {opt}")
-            sys.exit()
-
-    if host is None:
-        print("Host is required via -h or config file")
-        sys.exit(2)
     if target is None:
         target = host.split(".", 1)[0]
-    if mode == 'memory':
-        nodeIndex = 'mem'
-    elif mode == 'cpu':
+
+    if mode == 'cpu':
         nodeIndex = 'cpu'
-    else:
-        print("Mode option must be either 'memory' or 'cpu'")
-        sys.exit()
+    nodeIndex = 'mem'
 
     prox = shared.prox_auth(host)
 
